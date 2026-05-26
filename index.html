@@ -65,6 +65,8 @@
     }
 
     .orb2 {
+      box-shadow: 0 0 200px rgba(6,182,212,0.5);
+
       width: 600px;
       height: 600px;
       background: rgba(6,182,212,0.2);
@@ -113,6 +115,8 @@
     }
 
     .gradient-text {
+      filter: drop-shadow(0 0 20px rgba(139,92,246,0.4));
+
       background: linear-gradient(-45deg, #8b5cf6, #06b6d4, #ec4899, #ffffff);
       background-size: 300% 300%;
       -webkit-background-clip: text;
@@ -308,6 +312,8 @@
     }
 
     .card:hover {
+      box-shadow: 0 0 80px rgba(139,92,246,0.25);
+
       transform: translateY(-10px) scale(1.03);
       border-color: rgba(139,92,246,0.5);
     }
@@ -480,6 +486,8 @@
     }
 
     .terminal {
+      position: relative;
+
       background: #050505;
       border-radius: 25px;
       padding: 30px;
@@ -520,6 +528,10 @@
 </head>
 <body>
 
+  <audio id="hoverSound" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+  </audio>
+
   <canvas id="particles"></canvas>
 
   <div id="intro">
@@ -539,12 +551,17 @@
       <div class="logo">PRINGLEZ <span>STUDIO</span></div>
 
       <div class="nav-links">
+        <a href="https://discord.gg/xezeu3Uf3X" target="_blank">Discord</a>
         <a href="#features">Features</a>
         <a href="#download">Download</a>
         <a href="#github">GitHub</a>
       </div>
     </div>
   </nav>
+
+  <div id="soundToggle" class="glass" style="position:fixed;bottom:20px;right:20px;z-index:99999;padding:14px 18px;border-radius:999px;font-family:monospace;color:#8b5cf6;cursor:pointer;">
+    SOUND: OFF
+  </div>
 
   <section class="hero">
     <div class="hero-container">
@@ -590,7 +607,7 @@
         </div>
       </div>
 
-      <div class="mockup glass">
+      <div class="mockup glass" id="tiltCard">
         <div class="mockup-window">
           <div class="window-top">
             <div class="dot red"></div>
@@ -599,6 +616,11 @@
           </div>
 
           <div class="window-content">
+            <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+              <div class="glass" style="padding:8px 14px;border-radius:999px;font-size:0.8rem;color:#22c55e;">LIVE SORTING</div>
+              <div class="glass" style="padding:8px 14px;border-radius:999px;font-size:0.8rem;color:#06b6d4;">RESOURCE READY</div>
+              <div class="glass" style="padding:8px 14px;border-radius:999px;font-size:0.8rem;color:#ec4899;">VALIDATED</div>
+            </div>
             <h2 style="margin-bottom: 30px;">Clothing Sorter Pro</h2>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px;">
@@ -625,6 +647,36 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        LIVE <span class="gradient-text">SORTER SIMULATION</span>
+      </h2>
+
+      <p class="section-sub">
+        Watch Clothing Sorter Pro automate a full GTA V clothing workflow in real time.
+      </p>
+
+      <div class="showcase" style="margin-top:80px;">
+
+        <div class="terminal" id="simulationTerminal" style="min-height:500px;font-size:1rem;">
+> booting Clothing Sorter Pro...
+        </div>
+
+        <div class="showcase-box glass" style="min-height:500px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;">
+          <div style="font-size:8rem;margin-bottom:30px;animation:float 4s infinite ease-in-out;">📂</div>
+
+          <h3 style="font-size:3rem;margin-bottom:20px;">AUTOMATED PIPELINE</h3>
+
+          <p style="color:#aaa;font-size:1.1rem;line-height:1.9;max-width:500px;">
+            Drag files in. Let the engine categorise, validate and build your FiveM-ready resource structure automatically.
+          </p>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -676,6 +728,41 @@
           <p>Shows your current modding activity directly on your Discord profile.</p>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="download-box glass" style="position:relative;overflow:hidden;">
+
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at center,rgba(139,92,246,0.2),transparent 70%);"></div>
+
+        <div style="position:relative;z-index:2;">
+          <div style="font-size:7rem;margin-bottom:20px;animation:float 5s infinite ease-in-out;">
+            🌌
+          </div>
+
+          <h2>
+            ENTER THE NEXT GENERATION OF
+            <span class="gradient-text"> GTA V DEVELOPMENT</span>
+          </h2>
+
+          <p>
+            PringleZ Studio is redefining how GTA V clothing creators build, organise and ship resources.
+            Designed with cinematic visuals, lightning-fast automation and a futuristic workflow.
+          </p>
+
+          <div class="buttons" style="justify-content:center;">
+            <a class="btn btn-primary" href="https://discord.gg/xezeu3Uf3X" target="_blank">
+              Join Discord
+            </a>
+
+            <a class="btn btn-secondary glass" href="https://github.com/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro" target="_blank">
+              Explore GitHub
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -802,6 +889,100 @@
 
   <div class="cursor" id="cursor"></div>
 
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        JOIN THE <span class="gradient-text">COMMUNITY</span>
+      </h2>
+
+      <p class="section-sub">
+        Connect with GTA V creators, get support, share resources and see upcoming updates first.
+      </p>
+
+      <div class="download-box glass" style="margin-top:70px;position:relative;overflow:hidden;">
+
+        <div style="position:absolute;inset:0;background:linear-gradient(45deg,rgba(88,101,242,0.2),transparent,rgba(139,92,246,0.2));"></div>
+
+        <div style="position:relative;z-index:2;">
+          <div style="font-size:8rem;margin-bottom:20px;">💬</div>
+
+          <h2>
+            THE OFFICIAL
+            <span class="gradient-text"> DISCORD HUB</span>
+          </h2>
+
+          <p>
+            Meet modders, get instant support, test new builds early and become part of the PringleZ Studio ecosystem.
+          </p>
+
+          <a class="btn btn-primary" href="https://discord.gg/xezeu3Uf3X" target="_blank">
+            Join The Discord Server
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        WHY IT FEELS <span class="gradient-text">DIFFERENT</span>
+      </h2>
+
+      <div class="cards">
+
+        <div class="card glass">
+          <div class="card-icon">⚡</div>
+          <h3>Lightning Workflow</h3>
+          <p>Built to remove repetitive GTA V clothing tasks and let creators focus on designing instead of organising.</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">🧬</div>
+          <h3>Next-Gen UI</h3>
+          <p>Every animation, interaction and transition was crafted to feel futuristic, immersive and alive.</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">🌍</div>
+          <h3>Creator Ecosystem</h3>
+          <p>More than software — PringleZ Studio is evolving into a full ecosystem for GTA V clothing development.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        DEVELOPMENT <span class="gradient-text">TIMELINE</span>
+      </h2>
+
+      <div style="margin-top:80px;display:flex;flex-direction:column;gap:30px;">
+
+        <div class="glass" style="padding:35px;border-radius:30px;position:relative;overflow:hidden;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(to bottom,#8b5cf6,#06b6d4);"></div>
+          <h3 style="font-size:2rem;margin-bottom:10px;">v1.0 — Core System</h3>
+          <p style="color:#aaa;line-height:1.8;">Smart sorting, bulk rename, validation and automated resource creation.</p>
+        </div>
+
+        <div class="glass" style="padding:35px;border-radius:30px;position:relative;overflow:hidden;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(to bottom,#06b6d4,#ec4899);"></div>
+          <h3 style="font-size:2rem;margin-bottom:10px;">v2.0 — Ecosystem Expansion</h3>
+          <p style="color:#aaa;line-height:1.8;">Enhanced automation, improved UI systems and community integration.</p>
+        </div>
+
+        <div class="glass" style="padding:35px;border-radius:30px;position:relative;overflow:hidden;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(to bottom,#ec4899,#8b5cf6);"></div>
+          <h3 style="font-size:2rem;margin-bottom:10px;">Future — AI Assisted Modding</h3>
+          <p style="color:#aaa;line-height:1.8;">Advanced AI tooling, asset intelligence and workflow prediction systems.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <footer>
     <h3 style="font-size:2rem;margin-bottom:10px;">PRINGLEZ STUDIO</h3>
     <p>Clothing Sorter Pro © 2026</p>
@@ -845,6 +1026,82 @@
     document.addEventListener('mousemove', (e) => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
+    });
+
+    const soundToggle = document.getElementById('soundToggle');
+    const hoverSound = document.getElementById('hoverSound');
+
+    let soundEnabled = false;
+
+    soundToggle.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundToggle.innerText = soundEnabled ? 'SOUND: ON' : 'SOUND: OFF';
+    });
+
+    document.querySelectorAll('.btn, .card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        if(soundEnabled) {
+          hoverSound.currentTime = 0;
+          hoverSound.play();
+        }
+      });
+    });
+
+    const tiltCard = document.getElementById('tiltCard');
+
+    tiltCard.addEventListener('mousemove', (e) => {
+      const rect = tiltCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const rotateY = ((x / rect.width) - 0.5) * 16;
+      const rotateX = ((y / rect.height) - 0.5) * -16;
+
+      tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    tiltCard.addEventListener('mouseleave', () => {
+      tiltCard.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+    });
+
+    const simulationTerminal = document.getElementById('simulationTerminal');
+
+    const lines = [
+      '> scanning mp_m_freemode_01...',
+      '> validating clothing names...',
+      '> sorting texture dictionaries...',
+      '> detecting gender variations...',
+      '> building FiveM resource...',
+      '> generating fxmanifest.lua...',
+      '> validation passed.',
+      '> export complete.'
+    ];
+
+    let index = 0;
+
+    function typeSimulation() {
+      if(index < lines.length) {
+        simulationTerminal.innerHTML += '<br><br>' + lines[index];
+        simulationTerminal.scrollTop = simulationTerminal.scrollHeight;
+        index++;
+        setTimeout(typeSimulation, 1200);
+      }
+    }
+
+    setTimeout(typeSimulation, 1500);
+
+    document.querySelectorAll('.card, .btn, .showcase-box').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        el.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(139,92,246,0.18), rgba(255,255,255,0.04))`;
+      });
+
+      el.addEventListener('mouseleave', () => {
+        el.style.background = 'rgba(255,255,255,0.04)';
+      });
     });
 
     const canvas = document.getElementById('particles');
