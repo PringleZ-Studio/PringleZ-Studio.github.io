@@ -1,233 +1,1149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Clothing Sorter Pro — Final Boss</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PringleZ Studio - Clothing Sorter Pro</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  background:#010101;
-  color:#fff;
-  font-family:Inter;
-  overflow-x:hidden;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-h1,h2{font-family:Orbitron}
+    :root {
+      --bg: #050505;
+      --purple: #8b5cf6;
+      --cyan: #06b6d4;
+      --pink: #ec4899;
+      --text: #ffffff;
+      --glass: rgba(255,255,255,0.05);
+      --border: rgba(255,255,255,0.08);
+    }
 
-/* GLOBAL GLOW FIELD */
-.bg{
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  background:radial-gradient(circle at 30% 30%,#8b5cf6 0%,transparent 40%),
-             radial-gradient(circle at 70% 70%,#06b6d4 0%,transparent 40%),
-             #010101;
-  filter:blur(80px);
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* HERO */
-.hero{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-}
+    body {
+      cursor: none;
+      background: var(--bg);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
 
-.hero h1{
-  font-size:clamp(4rem,10vw,8rem);
-  background:linear-gradient(90deg,#8b5cf6,#06b6d4,#ec4899);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
+    h1,h2,h3,h4 {
+      font-family: 'Orbitron', sans-serif;
+    }
 
-.hero p{color:#aaa;margin-top:20px}
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
 
-.btn{
-  margin-top:40px;
-  padding:18px 40px;
-  border-radius:20px;
-  background:linear-gradient(90deg,#8b5cf6,#06b6d4);
-  color:white;
-  text-decoration:none;
-  position:relative;
-  overflow:hidden;
-}
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      animation: pulse 6s infinite ease-in-out;
+    }
 
-.btn::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle,rgba(255,255,255,.4),transparent 60%);
-  opacity:0;
-  transition:.3s;
-}
+    .orb1 {
+      width: 500px;
+      height: 500px;
+      background: rgba(139,92,246,0.3);
+      top: -100px;
+      left: -100px;
+    }
 
-.btn:active::after{opacity:1}
+    .orb2 {
+      box-shadow: 0 0 200px rgba(6,182,212,0.5);
 
-/* SORTER */
-.sorter{
-  padding:100px 20px;
-  text-align:center;
-}
+      width: 600px;
+      height: 600px;
+      background: rgba(6,182,212,0.2);
+      bottom: -200px;
+      right: -100px;
+      animation-delay: 2s;
+    }
 
-.files{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin:40px 0;
-}
+    @keyframes pulse {
+      0%,100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.15);
+      }
+    }
 
-.file{
-  padding:10px 16px;
-  border-radius:10px;
-  background:#111;
-}
+    @keyframes float {
+      0%,100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
 
-.columns{
-  display:flex;
-  justify-content:center;
-  gap:40px;
-}
+    @keyframes glow {
+      0%,100% {
+        box-shadow: 0 0 20px rgba(139,92,246,0.4);
+      }
+      50% {
+        box-shadow: 0 0 80px rgba(139,92,246,0.9);
+      }
+    }
 
-.col{
-  width:220px;
-  min-height:200px;
-  border:2px dashed rgba(255,255,255,.1);
-  border-radius:20px;
-  padding:20px;
-  transition:.3s;
-}
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
 
-.col.active{
-  border-color:#8b5cf6;
-  box-shadow:0 0 30px #8b5cf6;
-}
+    .gradient-text {
+      filter: drop-shadow(0 0 20px rgba(139,92,246,0.4));
 
-/* FEATURES */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:30px;
-  padding:100px 20px;
-}
+      background: linear-gradient(-45deg, #8b5cf6, #06b6d4, #ec4899, #ffffff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient 8s ease infinite;
+    }
 
-.card{
-  padding:40px;
-  border-radius:20px;
-  background:rgba(255,255,255,.03);
-  transition:.4s;
-}
+    .glass {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
 
-.card:hover{
-  transform:translateY(-12px) scale(1.05);
-  box-shadow:0 0 80px rgba(139,92,246,.4);
-}
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      background: rgba(0,0,0,0.5);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
 
-/* CURSOR */
-.cursor{
-  width:18px;height:18px;
-  border:2px solid #8b5cf6;
-  border-radius:50%;
-  position:fixed;
-  pointer-events:none;
-  transform:translate(-50%,-50%);
-  box-shadow:0 0 20px #8b5cf6;
-}
+    .nav-container {
+      max-width: 1400px;
+      margin: auto;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-</style>
+    .logo {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+    }
+
+    .logo span {
+      color: var(--purple);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 20px 50px;
+    }
+
+    .hero-container {
+      max-width: 1400px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 80px;
+      align-items: center;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 999px;
+      margin-bottom: 30px;
+      font-size: 0.9rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(4rem, 10vw, 8rem);
+      line-height: 0.95;
+      margin-bottom: 30px;
+    }
+
+    .hero p {
+      color: #b3b3b3;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 700px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+
+    .btn {
+      padding: 18px 35px;
+      border-radius: 18px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.4s;
+    }
+
+    .btn-primary {
+      background: var(--purple);
+      color: white;
+      animation: glow 4s infinite;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    .btn-secondary {
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    .stats {
+      display: flex;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    .stat h3 {
+      font-size: 3rem;
+      margin-bottom: 8px;
+    }
+
+    .stat p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    .mockup {
+      border-radius: 40px;
+      padding: 25px;
+      animation: float 6s infinite ease-in-out;
+    }
+
+    .mockup-window {
+      background: #090909;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .window-top {
+      padding: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      gap: 10px;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    .red { background: #ff4d4d; }
+    .yellow { background: #ffc107; }
+    .green { background: #22c55e; }
+
+    .window-content {
+      padding: 40px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 70px;
+    }
+
+    .card {
+      padding: 40px;
+      border-radius: 30px;
+      transition: 0.4s;
+    }
+
+    .card:hover {
+      box-shadow: 0 0 80px rgba(139,92,246,0.25);
+
+      transform: translateY(-10px) scale(1.03);
+      border-color: rgba(139,92,246,0.5);
+    }
+
+    .card-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      color: #999;
+      line-height: 1.8;
+    }
+
+    section {
+      padding: 120px 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(3rem, 6vw, 5rem);
+      margin-bottom: 20px;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: #888;
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .download-box {
+      padding: 80px;
+      border-radius: 40px;
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .download-box h2 {
+      font-size: clamp(3rem, 5vw, 5rem);
+      margin-bottom: 30px;
+    }
+
+    .download-box p {
+      color: #aaa;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 50px;
+    }
+
+    .github-box {
+      margin-top: 60px;
+      padding: 50px;
+      border-radius: 30px;
+    }
+
+    .release {
+      margin-top: 30px;
+      font-size: 1.3rem;
+      color: #22c55e;
+    }
+
+    footer {
+      padding: 50px 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+      color: #666;
+    }
+
+    #particles {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: black;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      animation: fadeOut 1.5s ease forwards;
+      animation-delay: 3.5s;
+    }
+
+    .intro-content {
+      text-align: center;
+    }
+
+    .intro-logo {
+      font-size: clamp(3rem,8vw,7rem);
+      margin-bottom: 20px;
+      letter-spacing: 8px;
+      animation: glitch 1s infinite;
+    }
+
+    .boot-text {
+      color: #8b5cf6;
+      font-family: monospace;
+      letter-spacing: 2px;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    @keyframes glitch {
+      0%,100% { transform: translate(0); }
+      20% { transform: translate(-2px,2px); }
+      40% { transform: translate(2px,-2px); }
+      60% { transform: translate(-2px,-1px); }
+      80% { transform: translate(1px,2px); }
+    }
+
+    .cursor {
+      width: 22px;
+      height: 22px;
+      border: 2px solid #8b5cf6;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 999999;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 30px #8b5cf6;
+      backdrop-filter: blur(4px);
+    }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+      gap: 50px;
+      margin-top: 80px;
+      align-items: center;
+    }
+
+    .showcase-box {
+      padding: 50px;
+      border-radius: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .showcase-box::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(45deg,#8b5cf6,#06b6d4,#ec4899);
+      z-index: -1;
+      filter: blur(40px);
+      opacity: 0.5;
+    }
+
+    .terminal {
+      position: relative;
+
+      background: #050505;
+      border-radius: 25px;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-family: monospace;
+      color: #22c55e;
+      line-height: 2;
+      overflow: hidden;
+    }
+
+    .scanline {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(255,255,255,0.03) 51%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      opacity: 0.2;
+    }
+
+    @media(max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-container {
+        grid-template-columns: 1fr;
+      }
+
+      .download-box {
+        padding: 40px 25px;
+      }
+
+      .stats {
+        gap: 30px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-<div class="bg"></div>
-<div class="cursor" id="cursor"></div>
 
-<section class="hero">
-  <h1>CLOTHING SORTER PRO</h1>
-  <p>Feels like software. Not a website.</p>
-  <a href="#" class="btn">Download Free</a>
-</section>
+  <audio id="hoverSound" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+  </audio>
 
-<section class="sorter">
-  <h2>LIVE AI SORTING ENGINE</h2>
-  <p id="status" style="color:#888;margin-top:10px">Idle...</p>
+  <canvas id="particles"></canvas>
 
-  <div class="files" id="files">
-    <div class="file">mp_m_shirt_01.ydd</div>
-    <div class="file">mp_f_pants_02.ydd</div>
-    <div class="file">mp_m_shoes_03.ytd</div>
+  <div id="intro">
+    <div class="intro-content">
+      <h1 class="intro-logo">PRINGLEZ STUDIO</h1>
+      <div class="boot-text" id="bootText">INITIALIZING CLOTHING SORTER PRO...</div>
+    </div>
   </div>
 
-  <button class="btn" id="start">Start Sorting</button>
-
-  <div class="columns" style="margin-top:40px">
-    <div class="col" id="male"><h4>Male</h4></div>
-    <div class="col" id="female"><h4>Female</h4></div>
+  <div class="bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
   </div>
-</section>
 
-<section class="cards">
-  <div class="card">⚡ Instant Sorting</div>
-  <div class="card">🧠 AI Detection</div>
-  <div class="card">🚀 Resource Builder</div>
-</section>
+  <nav>
+    <div class="nav-container">
+      <div class="logo">PRINGLEZ <span>STUDIO</span></div>
 
-<script>
-// CURSOR
-const cursor=document.getElementById("cursor")
-document.addEventListener("mousemove",e=>{
- cursor.style.left=e.clientX+"px"
- cursor.style.top=e.clientY+"px"
-})
+      <div class="nav-links">
+        <a href="https://discord.gg/xezeu3Uf3X" target="_blank">Discord</a>
+        <a href="#features">Features</a>
+        <a href="#download">Download</a>
+        <a href="#github">GitHub</a>
+      </div>
+    </div>
+  </nav>
 
-// HERO ANIM
-gsap.from("h1",{y:80,opacity:0,duration:1})
+  <div id="soundToggle" class="glass" style="position:fixed;bottom:20px;right:20px;z-index:99999;padding:14px 18px;border-radius:999px;font-family:monospace;color:#8b5cf6;cursor:pointer;">
+    SOUND: OFF
+  </div>
 
-// SORT ENGINE
-const btn=document.getElementById("start")
-const files=document.querySelectorAll(".file")
-const status=document.getElementById("status")
+  <section class="hero">
+    <div class="hero-container">
 
-btn.onclick=()=>{
- status.innerText="Scanning files..."
+      <div>
+        <div class="tag glass">⚡ Built For GTA V Clothing Modders</div>
 
- setTimeout(()=>status.innerText="Detecting types...",800)
- setTimeout(()=>status.innerText="Sorting assets...",1600)
+        <h1>
+          CLOTHING
+          <span class="gradient-text">SORTER PRO</span>
+        </h1>
 
- files.forEach((file,i)=>{
-  setTimeout(()=>{
-    const target=file.innerText.includes("mp_m")
-      ? document.getElementById("male")
-      : document.getElementById("female")
+        <p>
+          The ultimate Windows toolkit for GTA V clothing creators.
+          Automatically sort, rename, validate and package your mod files in seconds.
+        </p>
 
-    target.classList.add("active")
+        <div class="buttons">
+          <a class="btn btn-primary" href="https://github.com/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro/releases" target="_blank">
+            Download Now
+          </a>
 
-    gsap.to(file,{
-      x:target.getBoundingClientRect().left - file.getBoundingClientRect().left,
-      y:target.getBoundingClientRect().top - file.getBoundingClientRect().top,
-      duration:.6
-    })
+          <a class="btn btn-secondary glass" href="https://github.com/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro" target="_blank">
+            View GitHub
+          </a>
+        </div>
 
-    setTimeout(()=>{
-      target.appendChild(file)
-      file.style.transform="none"
-      target.classList.remove("active")
-    },600)
+        <div class="stats">
+          <div class="stat">
+            <h3 class="gradient-text">100%</h3>
+            <p>Free Core</p>
+          </div>
 
-  },i*800)
- })
+          <div class="stat">
+            <h3 class="gradient-text">64-Bit</h3>
+            <p>Windows 10/11</p>
+          </div>
 
- setTimeout(()=>status.innerText="✔ Completed",3000)
-}
-</script>
+          <div class="stat">
+            <h3 class="gradient-text">GTA V</h3>
+            <p>Modding Ready</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mockup glass" id="tiltCard">
+        <div class="mockup-window">
+          <div class="window-top">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+
+          <div class="window-content">
+            <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+              <div class="glass" style="padding:8px 14px;border-radius:999px;font-size:0.8rem;color:#22c55e;">LIVE SORTING</div>
+              <div class="glass" style="padding:8px 14px;border-radius:999px;font-size:0.8rem;color:#06b6d4;">RESOURCE READY</div>
+              <div class="glass" style="padding:8px 14px;border-radius:999px;font-size:0.8rem;color:#ec4899;">VALIDATED</div>
+            </div>
+            <h2 style="margin-bottom: 30px;">Clothing Sorter Pro</h2>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px;">
+              <div class="glass" style="padding:25px;border-radius:20px;">
+                <div style="color:#888;margin-bottom:10px;">Files Sorted</div>
+                <div style="font-size:2.5rem;font-weight:900;">12,491</div>
+              </div>
+
+              <div class="glass" style="padding:25px;border-radius:20px;">
+                <div style="color:#888;margin-bottom:10px;">Resources Built</div>
+                <div style="font-size:2.5rem;font-weight:900;">3,220</div>
+              </div>
+            </div>
+
+            <div style="height:18px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;">
+              <div class="gradient-text" style="height:100%;width:88%;background:linear-gradient(90deg,#8b5cf6,#06b6d4,#ec4899);"></div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-top:12px;color:#888;">
+              <span>Auto Sorting Files...</span>
+              <span>88%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        LIVE <span class="gradient-text">SORTER SIMULATION</span>
+      </h2>
+
+      <p class="section-sub">
+        Watch Clothing Sorter Pro automate a full GTA V clothing workflow in real time.
+      </p>
+
+      <div class="showcase" style="margin-top:80px;">
+
+        <div class="terminal" id="simulationTerminal" style="min-height:500px;font-size:1rem;">
+> booting Clothing Sorter Pro...
+        </div>
+
+        <div class="showcase-box glass" style="min-height:500px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;">
+          <div style="font-size:8rem;margin-bottom:30px;animation:float 4s infinite ease-in-out;">📂</div>
+
+          <h3 style="font-size:3rem;margin-bottom:20px;">AUTOMATED PIPELINE</h3>
+
+          <p style="color:#aaa;font-size:1.1rem;line-height:1.9;max-width:500px;">
+            Drag files in. Let the engine categorise, validate and build your FiveM-ready resource structure automatically.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <h2 class="section-title">
+        BUILT FOR <span class="gradient-text">POWER USERS</span>
+      </h2>
+
+      <p class="section-sub">
+        Everything you need to manage GTA V clothing resources faster than ever.
+      </p>
+
+      <div class="cards">
+
+        <div class="card glass">
+          <div class="card-icon">📂</div>
+          <h3>Smart Sorter</h3>
+          <p>Automatically categorises .ytd and .ydd files by gender and clothing type using GTA V naming conventions.</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">🔁</div>
+          <h3>Bulk Rename</h3>
+          <p>Rename thousands of files instantly with a live preview before committing changes.</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">👁️</div>
+          <h3>Folder Watcher</h3>
+          <p>Auto-sorts files the second they appear in your watched folder.</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">🏗️</div>
+          <h3>Resource Creator</h3>
+          <p>Generates ready-to-use FiveM resources with stream folders and fxmanifest.lua automatically.</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">✅</div>
+          <h3>Validation Center</h3>
+          <p>Flags files that deviate from GTA V naming standards before release.</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">🎮</div>
+          <h3>Discord Rich Presence</h3>
+          <p>Shows your current modding activity directly on your Discord profile.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="download-box glass" style="position:relative;overflow:hidden;">
+
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at center,rgba(139,92,246,0.2),transparent 70%);"></div>
+
+        <div style="position:relative;z-index:2;">
+          <div style="font-size:7rem;margin-bottom:20px;animation:float 5s infinite ease-in-out;">
+            🌌
+          </div>
+
+          <h2>
+            ENTER THE NEXT GENERATION OF
+            <span class="gradient-text"> GTA V DEVELOPMENT</span>
+          </h2>
+
+          <p>
+            PringleZ Studio is redefining how GTA V clothing creators build, organise and ship resources.
+            Designed with cinematic visuals, lightning-fast automation and a futuristic workflow.
+          </p>
+
+          <div class="buttons" style="justify-content:center;">
+            <a class="btn btn-primary" href="https://discord.gg/xezeu3Uf3X" target="_blank">
+              Join Discord
+            </a>
+
+            <a class="btn btn-secondary glass" href="https://github.com/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro" target="_blank">
+              Explore GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="download">
+    <div class="container">
+      <div class="download-box glass">
+        <div style="font-size:6rem;margin-bottom:20px;">🚀</div>
+
+        <h2>
+          DOWNLOAD THE FUTURE OF
+          <span class="gradient-text"> GTA V MODDING</span>
+        </h2>
+
+        <p>
+          Clothing Sorter Pro is completely free for all core features.
+          Built for creators who want speed, automation and zero headaches.
+        </p>
+
+        <div class="buttons" style="justify-content:center;">
+          <a class="btn btn-primary" href="https://github.com/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro/releases" target="_blank">
+            Download Latest Version
+          </a>
+
+          <a class="btn btn-secondary glass" href="https://github.com/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro" target="_blank">
+            View Source Code
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="github">
+    <div class="container">
+      <h2 class="section-title">
+        LIVE <span class="gradient-text">GITHUB</span> UPDATES
+      </h2>
+
+      <p class="section-sub">
+        Pulling the latest release directly from your GitHub repository.
+      </p>
+
+      <div class="github-box glass">
+        <h3 style="font-size:2rem;margin-bottom:20px;">Latest Release</h3>
+
+        <div id="release" class="release">
+          Loading latest version...
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        CINEMATIC <span class="gradient-text">SHOWCASE</span>
+      </h2>
+
+      <p class="section-sub">
+        Built to feel like a next-gen GTA V modding platform.
+      </p>
+
+      <div class="showcase">
+
+        <div class="showcase-box glass">
+          <div class="scanline"></div>
+
+          <h3 style="font-size:3rem;margin-bottom:20px;">
+            SMART SORTER AI
+          </h3>
+
+          <p style="color:#aaa;line-height:1.9;font-size:1.1rem;">
+            Automatically scans, categorises and restructures your GTA clothing assets with near-instant speed.
+          </p>
+        </div>
+
+        <div class="terminal">
+> scanning files...
+
+> detected mp_m_freemode_01
+
+> sorting .ydd assets...
+
+> sorting .ytd textures...
+
+> validating naming conventions...
+
+> generating resource structure...
+
+> export complete.
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        LIVE <span class="gradient-text">PROJECT STATS</span>
+      </h2>
+
+      <div class="cards" id="githubStats">
+        <div class="card glass">
+          <div class="card-icon">⭐</div>
+          <h3 id="stars">--</h3>
+          <p>GitHub Stars</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">🧠</div>
+          <h3 id="commits">LIVE</h3>
+          <p>Development Active</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">🚀</div>
+          <h3 id="version">--</h3>
+          <p>Latest Version</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cursor" id="cursor"></div>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        JOIN THE <span class="gradient-text">COMMUNITY</span>
+      </h2>
+
+      <p class="section-sub">
+        Connect with GTA V creators, get support, share resources and see upcoming updates first.
+      </p>
+
+      <div class="download-box glass" style="margin-top:70px;position:relative;overflow:hidden;">
+
+        <div style="position:absolute;inset:0;background:linear-gradient(45deg,rgba(88,101,242,0.2),transparent,rgba(139,92,246,0.2));"></div>
+
+        <div style="position:relative;z-index:2;">
+          <div style="font-size:8rem;margin-bottom:20px;">💬</div>
+
+          <h2>
+            THE OFFICIAL
+            <span class="gradient-text"> DISCORD HUB</span>
+          </h2>
+
+          <p>
+            Meet modders, get instant support, test new builds early and become part of the PringleZ Studio ecosystem.
+          </p>
+
+          <a class="btn btn-primary" href="https://discord.gg/xezeu3Uf3X" target="_blank">
+            Join The Discord Server
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        WHY IT FEELS <span class="gradient-text">DIFFERENT</span>
+      </h2>
+
+      <div class="cards">
+
+        <div class="card glass">
+          <div class="card-icon">⚡</div>
+          <h3>Lightning Workflow</h3>
+          <p>Built to remove repetitive GTA V clothing tasks and let creators focus on designing instead of organising.</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">🧬</div>
+          <h3>Next-Gen UI</h3>
+          <p>Every animation, interaction and transition was crafted to feel futuristic, immersive and alive.</p>
+        </div>
+
+        <div class="card glass">
+          <div class="card-icon">🌍</div>
+          <h3>Creator Ecosystem</h3>
+          <p>More than software — PringleZ Studio is evolving into a full ecosystem for GTA V clothing development.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title">
+        DEVELOPMENT <span class="gradient-text">TIMELINE</span>
+      </h2>
+
+      <div style="margin-top:80px;display:flex;flex-direction:column;gap:30px;">
+
+        <div class="glass" style="padding:35px;border-radius:30px;position:relative;overflow:hidden;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(to bottom,#8b5cf6,#06b6d4);"></div>
+          <h3 style="font-size:2rem;margin-bottom:10px;">v1.0 — Core System</h3>
+          <p style="color:#aaa;line-height:1.8;">Smart sorting, bulk rename, validation and automated resource creation.</p>
+        </div>
+
+        <div class="glass" style="padding:35px;border-radius:30px;position:relative;overflow:hidden;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(to bottom,#06b6d4,#ec4899);"></div>
+          <h3 style="font-size:2rem;margin-bottom:10px;">v2.0 — Ecosystem Expansion</h3>
+          <p style="color:#aaa;line-height:1.8;">Enhanced automation, improved UI systems and community integration.</p>
+        </div>
+
+        <div class="glass" style="padding:35px;border-radius:30px;position:relative;overflow:hidden;">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(to bottom,#ec4899,#8b5cf6);"></div>
+          <h3 style="font-size:2rem;margin-bottom:10px;">Future — AI Assisted Modding</h3>
+          <p style="color:#aaa;line-height:1.8;">Advanced AI tooling, asset intelligence and workflow prediction systems.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <h3 style="font-size:2rem;margin-bottom:10px;">PRINGLEZ STUDIO</h3>
+    <p>Clothing Sorter Pro © 2026</p>
+  </footer>
+
+  <script>
+    async function fetchLatestRelease() {
+      try {
+        const response = await fetch('https://api.github.com/repos/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro/releases/latest');
+        const data = await response.json();
+
+        document.getElementById('release').innerHTML = `
+          Latest Version: <strong>${data.tag_name || 'Unknown'}</strong><br><br>
+          ${data.name || ''}<br><br>
+          <a href="${data.html_url}" target="_blank" style="color:#8b5cf6;text-decoration:none;">
+            View Release →
+          </a>
+        `;
+      } catch (err) {
+        document.getElementById('release').innerHTML = 'Could not fetch latest release.';
+      }
+    }
+
+    fetchLatestRelease();
+
+    async function fetchGitHubStats() {
+      try {
+        const response = await fetch('https://api.github.com/repos/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro');
+        const data = await response.json();
+
+        document.getElementById('stars').innerText = data.stargazers_count || '0';
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    fetchGitHubStats();
+
+    const cursor = document.getElementById('cursor');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    const soundToggle = document.getElementById('soundToggle');
+    const hoverSound = document.getElementById('hoverSound');
+
+    let soundEnabled = false;
+
+    soundToggle.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundToggle.innerText = soundEnabled ? 'SOUND: ON' : 'SOUND: OFF';
+    });
+
+    document.querySelectorAll('.btn, .card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        if(soundEnabled) {
+          hoverSound.currentTime = 0;
+          hoverSound.play();
+        }
+      });
+    });
+
+    const tiltCard = document.getElementById('tiltCard');
+
+    tiltCard.addEventListener('mousemove', (e) => {
+      const rect = tiltCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const rotateY = ((x / rect.width) - 0.5) * 16;
+      const rotateX = ((y / rect.height) - 0.5) * -16;
+
+      tiltCard.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+
+    tiltCard.addEventListener('mouseleave', () => {
+      tiltCard.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+    });
+
+    const simulationTerminal = document.getElementById('simulationTerminal');
+
+    const lines = [
+      '> scanning mp_m_freemode_01...',
+      '> validating clothing names...',
+      '> sorting texture dictionaries...',
+      '> detecting gender variations...',
+      '> building FiveM resource...',
+      '> generating fxmanifest.lua...',
+      '> validation passed.',
+      '> export complete.'
+    ];
+
+    let index = 0;
+
+    function typeSimulation() {
+      if(index < lines.length) {
+        simulationTerminal.innerHTML += '<br><br>' + lines[index];
+        simulationTerminal.scrollTop = simulationTerminal.scrollHeight;
+        index++;
+        setTimeout(typeSimulation, 1200);
+      }
+    }
+
+    setTimeout(typeSimulation, 1500);
+
+    document.querySelectorAll('.card, .btn, .showcase-box').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        el.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(139,92,246,0.18), rgba(255,255,255,0.04))`;
+      });
+
+      el.addEventListener('mouseleave', () => {
+        el.style.background = 'rgba(255,255,255,0.04)';
+      });
+    });
+
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: (Math.random() - 0.5) * 0.5
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = 'rgba(139,92,246,0.8)';
+
+      particles.forEach(p => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+  </script>
 
 </body>
 </html>
