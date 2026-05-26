@@ -3,180 +3,230 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PringleZ Studio - Clothing Sorter Pro</title>
+<title>Clothing Sorter Pro — Final Boss</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#050505;color:white;font-family:Inter;overflow-x:hidden}
-
-h1,h2,h3{font-family:Orbitron}
-
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-text-align:center;
-position:relative;
+body{
+  background:#010101;
+  color:#fff;
+  font-family:Inter;
+  overflow-x:hidden;
 }
 
-.hero::before{
-content:"";
-position:absolute;
-inset:0;
-background:radial-gradient(circle at center,rgba(139,92,246,.2),transparent 60%);
+h1,h2{font-family:Orbitron}
+
+/* GLOBAL GLOW FIELD */
+.bg{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:radial-gradient(circle at 30% 30%,#8b5cf6 0%,transparent 40%),
+             radial-gradient(circle at 70% 70%,#06b6d4 0%,transparent 40%),
+             #010101;
+  filter:blur(80px);
+}
+
+/* HERO */
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
 }
 
 .hero h1{
-font-size:clamp(3rem,8vw,7rem);
-background:linear-gradient(90deg,#8b5cf6,#06b6d4,#ec4899);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+  font-size:clamp(4rem,10vw,8rem);
+  background:linear-gradient(90deg,#8b5cf6,#06b6d4,#ec4899);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
+
+.hero p{color:#aaa;margin-top:20px}
 
 .btn{
-padding:15px 30px;
-background:#8b5cf6;
-border-radius:15px;
-color:white;
-text-decoration:none;
-display:inline-block;
-margin-top:20px;
-transition:.3s;
+  margin-top:40px;
+  padding:18px 40px;
+  border-radius:20px;
+  background:linear-gradient(90deg,#8b5cf6,#06b6d4);
+  color:white;
+  text-decoration:none;
+  position:relative;
+  overflow:hidden;
 }
 
-.btn:hover{transform:scale(1.05);box-shadow:0 0 30px #8b5cf6}
+.btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle,rgba(255,255,255,.4),transparent 60%);
+  opacity:0;
+  transition:.3s;
+}
 
-.section{padding:100px 20px;max-width:1200px;margin:auto}
+.btn:active::after{opacity:1}
 
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px}
+/* SORTER */
+.sorter{
+  padding:100px 20px;
+  text-align:center;
+}
+
+.files{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin:40px 0;
+}
+
+.file{
+  padding:10px 16px;
+  border-radius:10px;
+  background:#111;
+}
+
+.columns{
+  display:flex;
+  justify-content:center;
+  gap:40px;
+}
+
+.col{
+  width:220px;
+  min-height:200px;
+  border:2px dashed rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:20px;
+  transition:.3s;
+}
+
+.col.active{
+  border-color:#8b5cf6;
+  box-shadow:0 0 30px #8b5cf6;
+}
+
+/* FEATURES */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+  padding:100px 20px;
+}
 
 .card{
-padding:30px;
-background:rgba(255,255,255,0.05);
-border-radius:20px;
-transition:.3s;
-transform-style:preserve-3d;
+  padding:40px;
+  border-radius:20px;
+  background:rgba(255,255,255,.03);
+  transition:.4s;
 }
 
-.card:hover{transform:rotateY(10deg) rotateX(10deg)}
-
-/* DEMO */
-.dropzone{
-border:2px dashed #8b5cf6;
-padding:60px;
-border-radius:20px;
-text-align:center;
-margin-top:30px;
+.card:hover{
+  transform:translateY(-12px) scale(1.05);
+  box-shadow:0 0 80px rgba(139,92,246,.4);
 }
 
-.file{background:#111;padding:10px;border-radius:10px;display:inline-block;margin:5px;cursor:grab}
-
-.progress{height:10px;background:#222;margin-top:20px;border-radius:10px;overflow:hidden}
-.bar{height:100%;width:0;background:linear-gradient(90deg,#8b5cf6,#06b6d4)}
-
-footer{text-align:center;padding:40px;color:#777}
+/* CURSOR */
+.cursor{
+  width:18px;height:18px;
+  border:2px solid #8b5cf6;
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 20px #8b5cf6;
+}
 
 </style>
 </head>
+
 <body>
+<div class="bg"></div>
+<div class="cursor" id="cursor"></div>
 
 <section class="hero">
-<h1 id="heroTitle">CLOTHING SORTER PRO</h1>
-<p>Automate GTA V clothing workflow instantly</p>
-<a class="btn" href="#">Download Free</a>
+  <h1>CLOTHING SORTER PRO</h1>
+  <p>Feels like software. Not a website.</p>
+  <a href="#" class="btn">Download Free</a>
 </section>
 
-<section class="section">
-<h2>Features</h2>
-<div class="cards">
-<div class="card">Smart Sorting</div>
-<div class="card">Bulk Rename</div>
-<div class="card">Auto Builder</div>
-</div>
+<section class="sorter">
+  <h2>LIVE AI SORTING ENGINE</h2>
+  <p id="status" style="color:#888;margin-top:10px">Idle...</p>
+
+  <div class="files" id="files">
+    <div class="file">mp_m_shirt_01.ydd</div>
+    <div class="file">mp_f_pants_02.ydd</div>
+    <div class="file">mp_m_shoes_03.ytd</div>
+  </div>
+
+  <button class="btn" id="start">Start Sorting</button>
+
+  <div class="columns" style="margin-top:40px">
+    <div class="col" id="male"><h4>Male</h4></div>
+    <div class="col" id="female"><h4>Female</h4></div>
+  </div>
 </section>
 
-<section class="section">
-<h2>Live Demo</h2>
-<div class="dropzone" id="dropzone">Drop Files Here</div>
-<div class="progress"><div class="bar" id="bar"></div></div>
-<div>
-<div class="file" draggable="true">shirt.ytd</div>
-<div class="file" draggable="true">pants.ydd</div>
-<div class="file" draggable="true">hat.ydd</div>
-</div>
+<section class="cards">
+  <div class="card">⚡ Instant Sorting</div>
+  <div class="card">🧠 AI Detection</div>
+  <div class="card">🚀 Resource Builder</div>
 </section>
-
-<section class="section">
-<h2>GitHub Stats</h2>
-<p>⭐ Stars: <span id="stars">--</span></p>
-<p>⬇ Downloads: <span id="downloads">--</span></p>
-<p>🚀 Version: <span id="version">--</span></p>
-</section>
-
-<section class="section">
-<h2>Pricing</h2>
-<div class="card" style="max-width:300px;margin:auto;text-align:center">
-<h3>FREE</h3>
-<h1>$0</h1>
-<p>Everything included</p>
-</div>
-</section>
-
-<footer>PringleZ Studio © 2026</footer>
 
 <script>
+// CURSOR
+const cursor=document.getElementById("cursor")
+document.addEventListener("mousemove",e=>{
+ cursor.style.left=e.clientX+"px"
+ cursor.style.top=e.clientY+"px"
+})
 
-// GSAP
+// HERO ANIM
+gsap.from("h1",{y:80,opacity:0,duration:1})
 
-gsap.from("#heroTitle",{y:100,opacity:0,duration:1});
+// SORT ENGINE
+const btn=document.getElementById("start")
+const files=document.querySelectorAll(".file")
+const status=document.getElementById("status")
 
-gsap.utils.toArray(".card").forEach(el=>{
- gsap.from(el,{scrollTrigger:el,y:50,opacity:0,duration:1});
-});
+btn.onclick=()=>{
+ status.innerText="Scanning files..."
 
-// DEMO
-const files=document.querySelectorAll('.file');
-const dropzone=document.getElementById('dropzone');
-const bar=document.getElementById('bar');
-let progress=0;
+ setTimeout(()=>status.innerText="Detecting types...",800)
+ setTimeout(()=>status.innerText="Sorting assets...",1600)
 
-files.forEach(f=>{
- f.addEventListener('dragstart',e=>{
-  e.dataTransfer.setData('text',f.innerText);
- });
-});
+ files.forEach((file,i)=>{
+  setTimeout(()=>{
+    const target=file.innerText.includes("mp_m")
+      ? document.getElementById("male")
+      : document.getElementById("female")
 
-dropzone.addEventListener('dragover',e=>e.preventDefault());
+    target.classList.add("active")
 
-dropzone.addEventListener('drop',e=>{
- e.preventDefault();
- const data=e.dataTransfer.getData('text');
- dropzone.innerHTML+=`<br>Sorted: ${data}`;
- progress+=30;
- bar.style.width=progress+"%";
-});
+    gsap.to(file,{
+      x:target.getBoundingClientRect().left - file.getBoundingClientRect().left,
+      y:target.getBoundingClientRect().top - file.getBoundingClientRect().top,
+      duration:.6
+    })
 
-// GITHUB
-async function fetchStats(){
-const repo=await fetch('https://api.github.com/repos/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro').then(r=>r.json());
-const releases=await fetch('https://api.github.com/repos/pringleeeeeeee/Pringlez-Studio.-Clothing-Sorter-Pro/releases').then(r=>r.json());
+    setTimeout(()=>{
+      target.appendChild(file)
+      file.style.transform="none"
+      target.classList.remove("active")
+    },600)
 
-let downloads=0;
-releases.forEach(r=>r.assets.forEach(a=>downloads+=a.download_count));
+  },i*800)
+ })
 
-document.getElementById('stars').innerText=repo.stargazers_count||0;
-document.getElementById('version').innerText=releases[0]?.tag_name||"N/A";
-document.getElementById('downloads').innerText=downloads;
+ setTimeout(()=>status.innerText="✔ Completed",3000)
 }
-
-fetchStats();
-
 </script>
 
 </body>
